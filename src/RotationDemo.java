@@ -57,6 +57,7 @@ public class RotationDemo {
 
 	    private GLWindow window;
 	    private Animator animator;
+	    private boolean shouldRotate = true;
 
 	    public void main(String[] args) {
 	        new HelloTriangleSimple().setup();
@@ -144,8 +145,15 @@ public class RotationDemo {
 	                System.exit(1);
 	            }
 	        });
+
+	        rotate();
 	    }
 
+	    private void rotate() {
+			while (shouldRotate) {
+				rotationMatrix.glRotatef(10.0f, 0.0f, 1.0f, 0.0f);
+			}
+		}
 
 	    @Override
 	    public void init(GLAutoDrawable drawable) {
@@ -157,6 +165,7 @@ public class RotationDemo {
 	        rotationMatrix.glLoadIdentity();
 	        viewMatrix.glLoadIdentity();
 	        projectionMatrix.glLoadIdentity();
+	        // sets up orthographic projection from (-1, -100, -1) to (1, 100, 1) for the program
 	        projectionMatrix.glOrthof(-1.0f, 1.0f, -1.0f, 1.0f, -100f, 100f);
 	        buildObjects(gl);
 
@@ -197,16 +206,16 @@ public class RotationDemo {
 	        gl.glBindVertexArray(vertexArrayName.get(0));
 	        gl.glGenBuffers(Buffer.MAX, bufferName);
 	        gl.glBindBuffer(GL_ARRAY_BUFFER, bufferName.get(0));
-	        gl.glBufferData(GL_ARRAY_BUFFER,  (vertexBuffer.capacity()+colorBuffer.capacity()) * 4 , null, GL_STATIC_DRAW);
-	        gl.glBufferSubData(GL_ARRAY_BUFFER,0L,vertexBuffer.capacity() * 4, vertexBuffer);
-	        gl.glBufferSubData(GL_ARRAY_BUFFER, vertexBuffer.capacity() * 4, colorBuffer.capacity()*4, colorBuffer);
+	        gl.glBufferData(GL_ARRAY_BUFFER,  (vertexBuffer.capacity()+colorBuffer.capacity()) * 4L, null, GL_STATIC_DRAW);
+	        gl.glBufferSubData(GL_ARRAY_BUFFER,0L,vertexBuffer.capacity() * 4L, vertexBuffer);
+	        gl.glBufferSubData(GL_ARRAY_BUFFER, vertexBuffer.capacity() * 4L, colorBuffer.capacity()* 4L, colorBuffer);
 
 	        int vPosition = gl.glGetAttribLocation(program.name, "vPosition");
 	        int vColor = gl.glGetAttribLocation(program.name, "vColor");
 	        gl.glEnableVertexAttribArray(vPosition);
 	        gl.glVertexAttribPointer(vPosition, 4, GL_FLOAT, false, 0, 0);
 	        gl.glEnableVertexAttribArray(vColor);
-	        gl.glVertexAttribPointer(vColor, 4, GL_FLOAT, false, 0, vertexBuffer.capacity() * 4);
+	        gl.glVertexAttribPointer(vColor, 4, GL_FLOAT, false, 0, vertexBuffer.capacity() * 4L);
 	    }
 
 
@@ -296,6 +305,13 @@ public class RotationDemo {
 				viewMatrix.glLoadIdentity();
 				// eye position (0, 0, 1), look at (0, 0, 0), up direction (0, 1, 0)
 				viewMatrix.gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
+			} else if (e.getKeyCode() == KeyEvent.VK_P) {
+	        	// Pause rotation
+				shouldRotate = false;
+			} else if (e.getKeyCode() == KeyEvent.VK_R) {
+	        	// Resume rotation
+				shouldRotate = true;
+				rotate();
 			}
 	    }
 
