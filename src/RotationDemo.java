@@ -111,13 +111,12 @@ public class RotationDemo {
 		};
 
 
-	    private IntBuffer bufferName = GLBuffers.newDirectIntBuffer(Buffer.MAX);
-	    private IntBuffer vertexArrayName = GLBuffers.newDirectIntBuffer(1);
+	    private final IntBuffer bufferName = GLBuffers.newDirectIntBuffer(Buffer.MAX);
+	    private final IntBuffer vertexArrayName = GLBuffers.newDirectIntBuffer(1);
         private Program program;
-	    private long start;
-	    private PMVMatrix rotationMatrix = new PMVMatrix();
-	    private PMVMatrix viewMatrix = new PMVMatrix();
-	    private PMVMatrix projectionMatrix = new PMVMatrix();
+		private final PMVMatrix rotationMatrix = new PMVMatrix();
+	    private final PMVMatrix viewMatrix = new PMVMatrix();
+	    private final PMVMatrix projectionMatrix = new PMVMatrix();
 
 	    private void setup() {
 
@@ -175,17 +174,12 @@ public class RotationDemo {
 	        buildObjects(gl);
 
 	        gl.glEnable(GL_DEPTH_TEST);
-	        start = System.currentTimeMillis();
+			long start = System.currentTimeMillis();
 	    }
 
 	    private void initDebug(GL4 gl) {
 
-	        window.getContext().addGLDebugListener(new GLDebugListener() {
-	            @Override
-	            public void messageSent(GLDebugMessage event) {
-	                System.out.println(event);
-	            }
-	        });
+	        window.getContext().addGLDebugListener(System.out::println);
 	        /*
 	         * sets up medium and high severity error messages to be printed.
 	         */
@@ -296,17 +290,17 @@ public class RotationDemo {
 			} else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
 				rotationMatrix.glRotatef(-10.0f, 1.0f, 0.0f, 0.0f);
 			} else if (e.getKeyCode() == KeyEvent.VK_X) {
-	        	// look down x axis towards origin
+	        	// look down x-axis towards origin
 	        	viewMatrix.glLoadIdentity();
 	        	// eye position (1, 0, 0), look at (0, 0, 0), up direction (0, 1, 0)
 	        	viewMatrix.gluLookAt(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 	        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
-	        	// look down y axis towards origin
+	        	// look down y-axis towards origin
 	        	viewMatrix.glLoadIdentity();
-	        	// eye position (0, 3, 0), look at (0, 1, 0), up direction (0, 1, 0)
+	        	// eye position (0, 3, 0), look at (0, 0, 0`), up direction (0, 1, 0)
 	        	viewMatrix.gluLookAt(0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.01f, 0.0f, 1.0f, 0.0f);
 			} else if (e.getKeyCode() == KeyEvent.VK_Z) {
-	        	// look down z axis towards origin
+	        	// look down z-axis towards origin
 				viewMatrix.glLoadIdentity();
 				// eye position (0, 0, 1), look at (0, 0, 0), up direction (0, 1, 0)
 				viewMatrix.gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
@@ -369,11 +363,10 @@ public class RotationDemo {
 	        private int type = 0;
 	        private int id = 0;
 	        private int severity = 0;
-	        private int length = 0;
+	        private final int length = 0;
 	        private String message = null;
-	        private boolean received = false;
 
-	        public GlDebugOutput() {
+			public GlDebugOutput() {
 	        }
 
 	        public GlDebugOutput(int source, int type, int severity) {
@@ -400,7 +393,8 @@ public class RotationDemo {
 	            else
 	                System.err.println("GlDebugOutput.messageSent(): " + event);
 
-	            if (null != message && message == event.getDbgMsg() && id == event.getDbgId())
+				boolean received = false;
+				if (null != message && message.equals(event.getDbgMsg()) && id == event.getDbgId())
 	                received = true;
 	            else if (0 <= source && source == event.getDbgSource() && type == event.getDbgType() && severity == event.getDbgSeverity())
 	                received = true;
@@ -417,7 +411,6 @@ public class RotationDemo {
 	}
 
 	/**
-	 * @param args
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
