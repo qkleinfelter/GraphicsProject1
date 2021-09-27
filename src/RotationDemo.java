@@ -152,6 +152,11 @@ public class RotationDemo {
 	    private void rotate() {
 			while (shouldRotate) {
 				rotationMatrix.glRotatef(10.0f, 0.0f, 1.0f, 0.0f);
+				try {
+					Thread.sleep(85);
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 			}
 		}
 
