@@ -144,20 +144,7 @@ public class RotationDemo {
 	                System.exit(1);
 	            }
 	        });
-
-	        rotate();
 	    }
-
-	    private void rotate() {
-			while (shouldRotate) {
-				rotationMatrix.glRotatef(10.0f, 0.0f, 1.0f, 0.0f);
-				try {
-					Thread.sleep(85);
-				} catch (Exception e) {
-					System.out.println(e);
-				}
-			}
-		}
 
 	    @Override
 	    public void init(GLAutoDrawable drawable) {
@@ -241,7 +228,12 @@ public class RotationDemo {
 	        int projectionMatrixLocation = gl.glGetUniformLocation(program.name, "projectionMatrix");
 	        gl.glUniformMatrix4fv(projectionMatrixLocation, 1, false, projectionMatrix.glGetMatrixf());
 	        gl.glDrawArrays(GL_TRIANGLES, 0, vertices.length/4);
-	    }
+
+			if (shouldRotate) {
+				rotationMatrix.glRotatef(3.0f, 0.0f, 1.0f, 0.0f);
+
+			}
+		}
 
 	    @Override
 	    /*
@@ -310,7 +302,6 @@ public class RotationDemo {
 			} else if (e.getKeyCode() == KeyEvent.VK_R) {
 	        	// Resume rotation
 				shouldRotate = true;
-				rotate();
 			}
 	    }
 
