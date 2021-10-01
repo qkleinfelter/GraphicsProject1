@@ -83,6 +83,7 @@ public class RotationDemo {
 	        GLCapabilities glCapabilities = new GLCapabilities(glProfile);
 
 	        // file should be in the src directory
+			// e.g. "src/diamond.dat"
 	        readVerticesAndColors("diamond.dat");
 
 	        window = GLWindow.create(glCapabilities);
@@ -110,11 +111,12 @@ public class RotationDemo {
 
 	    private void readVerticesAndColors(String filename) {
 	    	try (Scanner file = new Scanner(new File("src/" + filename))) {
+	    		// Grab the number of vertices from the top of the data file, and setup the arrays
 	    		int numVert = file.nextInt();
-
 	    		vertices = new float[numVert * 4];
 	    		colors = new float[numVert * 4];
 
+	    		// Read vertices in one line at a time
 	    		for (int i = 0; i < numVert; i++) {
 	    			vertices[4 * i] = file.nextFloat();
 	    			vertices[(4 * i) + 1] = file.nextFloat();
@@ -122,6 +124,7 @@ public class RotationDemo {
 					vertices[(4 * i) + 3] = file.nextFloat();
 				}
 
+	    		// Read colors in one line at a time
 	    		for (int i = 0; i < numVert; i++) {
 					colors[4 * i] = file.nextFloat();
 					colors[(4 * i) + 1] = file.nextFloat();
@@ -219,7 +222,6 @@ public class RotationDemo {
 
 			if (shouldRotate) {
 				rotationMatrix.glRotatef(3.0f, 0.0f, 1.0f, 0.0f);
-
 			}
 		}
 
@@ -258,9 +260,7 @@ public class RotationDemo {
 	     */
 	    public void keyPressed(KeyEvent e) {
 	        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-	            new Thread(() -> {
-	                window.destroy();
-	            }).start();
+	            new Thread(() -> window.destroy()).start();
 	        } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 	        	rotationMatrix.glRotatef(10.0f, 0.0f, 1.0f, 0.0f);
 	        } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -271,16 +271,19 @@ public class RotationDemo {
 				rotationMatrix.glRotatef(-10.0f, 1.0f, 0.0f, 0.0f);
 			} else if (e.getKeyCode() == KeyEvent.VK_X) {
 	        	// look down x-axis towards origin
+
 	        	viewMatrix.glLoadIdentity();
 	        	// eye position (1, 0, 0), look at (0, 0, 0), up direction (0, 1, 0)
 	        	viewMatrix.gluLookAt(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 	        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
 	        	// look down y-axis towards origin
+
 	        	viewMatrix.glLoadIdentity();
 	        	// eye position (0, 3, 0), look at (0, 0, 0), up direction (1, 0, 0)
 	        	viewMatrix.gluLookAt(0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
 			} else if (e.getKeyCode() == KeyEvent.VK_Z) {
 	        	// look down z-axis towards origin
+
 				viewMatrix.glLoadIdentity();
 				// eye position (0, 0, 1), look at (0, 0, 0), up direction (0, 1, 0)
 				viewMatrix.gluLookAt(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
