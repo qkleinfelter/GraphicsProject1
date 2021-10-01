@@ -9,10 +9,13 @@ import com.jogamp.opengl.util.PMVMatrix;
 import com.jogamp.opengl.util.glsl.ShaderCode;
 	import com.jogamp.opengl.util.glsl.ShaderProgram;
 
+	import java.io.File;
+	import java.io.FileNotFoundException;
 	import java.nio.ByteBuffer;
 	import java.nio.FloatBuffer;
 	import java.nio.IntBuffer;
 	import java.nio.ShortBuffer;
+	import java.util.Scanner;
 
 	import static com.jogamp.opengl.GL.*;
 	import static com.jogamp.opengl.GL.GL_FLOAT;
@@ -62,53 +65,9 @@ public class RotationDemo {
 	    public void main(String[] args) {
 	        new HelloTriangleSimple().setup();
 	    }
-//		private float vertices[] = {
-//				   -0.5f, -0.5f, -0.5f, 1.0f, -0.5f,  0.5f,  0.5f, 1.0f, -0.5f, -0.5f,  0.5f, 1.0f,
-//				   -0.5f, -0.5f, -0.5f, 1.0f, -0.5f,  0.5f,  0.5f, 1.0f, -0.5f,  0.5f, -0.5f, 1.0f,
-//				   -0.5f, -0.5f, -0.5f, 1.0f, -0.5f,  0.5f, -0.5f, 1.0f,  0.5f,  0.5f, -0.5f, 1.0f,
-//				   -0.5f, -0.5f, -0.5f, 1.0f,  0.5f,  0.5f, -0.5f, 1.0f,  0.5f, -0.5f, -0.5f, 1.0f,
-//				   -0.5f, -0.5f, -0.5f, 1.0f,  0.5f, -0.5f, -0.5f, 1.0f,  0.5f, -0.5f,  0.5f, 1.0f,
-//				   -0.5f, -0.5f, -0.5f, 1.0f,  0.5f, -0.5f,  0.5f, 1.0f, -0.5f, -0.5f,  0.5f, 1.0f,
-//				   -0.5f, -0.5f,  0.5f, 1.0f, -0.5f,  0.5f,  0.5f, 1.0f,  0.5f,  0.5f,  0.5f, 1.0f,
-//				   -0.5f, -0.5f,  0.5f, 1.0f,  0.5f,  0.5f,  0.5f, 1.0f,  0.5f, -0.5f,  0.5f, 1.0f,
-//				   -0.5f,  0.5f,  0.5f, 1.0f, -0.5f,  0.5f, -0.5f, 1.0f,  0.5f,  0.5f,  0.5f, 1.0f,
-//					0.5f,  0.5f,  0.5f, 1.0f,  0.5f,  0.5f, -0.5f, 1.0f, -0.5f,  0.5f, -0.5f, 1.0f,
-//					0.5f, -0.5f,  0.5f, 1.0f,  0.5f, -0.5f, -0.5f, 1.0f,  0.5f,  0.5f, -0.5f, 1.0f,
-//					0.5f, -0.5f,  0.5f, 1.0f,  0.5f,  0.5f, -0.5f, 1.0f,  0.5f,  0.5f,  0.5f, 1.0f
-//		};
-//
-//		private float colors[] = {
-//						0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 1.0f,
-//						0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f, 1.0f,
-//						0.0f, 0.0f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f, 1.0f,  1.0f, 1.0f, 0.0f, 1.0f,
-//						0.0f, 0.0f, 0.0f, 1.0f,  1.0f, 1.0f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-//						0.0f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-//						0.0f, 0.0f, 0.0f, 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,  0.0f, 0.0f, 1.0f, 1.0f,
-//						0.0f, 0.0f, 1.0f, 1.0f,  0.0f, 1.0f, 1.0f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f,
-//						0.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-//						0.0f, 1.0f, 1.0f, 1.0f,  0.0f, 1.0f, 0.0f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f,
-//						1.0f, 1.0f, 1.0f, 1.0f,  1.0f, 1.0f, 0.0f, 1.0f,  0.0f, 1.0f, 0.0f, 1.0f,
-//						1.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f, 0.0f, 1.0f,  1.0f, 1.0f, 0.0f, 1.0f,
-//						1.0f, 0.0f, 1.0f, 1.0f,  1.0f, 1.0f, 0.0f, 1.0f,  1.0f, 1.0f, 1.0f, 1.0f
-//		};
 
-		private final float[] vertices = {
-				-0.5f, 0.0f, -0.5f, 1.0f, 0.5f, 0.0f, -0.5f, 1.0f, -0.5f, 0.0f, 0.5f, 1.0f, // base triangle 1
-				0.5f, 0.0f, 0.5f, 1.0f, 0.5f, 0.0f, -0.5f, 1.0f, -0.5f, 0.0f, 0.5f, 1.0f,   // base triangle 2
-				-0.5f, 0.0f, -0.5f, 1.0f, -0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,  // left side triangle
-				-0.5f, 0.0f, 0.5f, 1.0f, 0.5f, 0.0f, 0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,    // back side triangle
-				0.5f, 0.0f, 0.5f, 1.0f, 0.5f, 0.0f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f,	// right side triangle
-				-0.5f, 0.0f, -0.5f, 1.0f, 0.5f, 0.0f, -0.5f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f   // front side triangle
-		};
-
-		private final float[] colors = {
-				1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,		// base triangle 1
-				0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,		// base triangle 2
-				1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,		// left side triangle
-				1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,		// back side triangle
-				0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,		// right side triangle
-				1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,		// front side triangle
-		};
+		private float[] vertices = null;
+		private float[] colors = null;
 
 
 	    private final IntBuffer bufferName = GLBuffers.newDirectIntBuffer(Buffer.MAX);
@@ -122,6 +81,9 @@ public class RotationDemo {
 
 	        GLProfile glProfile = GLProfile.get(GLProfile.GL4);
 	        GLCapabilities glCapabilities = new GLCapabilities(glProfile);
+
+	        // file should be in the src directory
+	        readVerticesAndColors("diamond.dat");
 
 	        window = GLWindow.create(glCapabilities);
 
@@ -145,6 +107,32 @@ public class RotationDemo {
 	            }
 	        });
 	    }
+
+	    private void readVerticesAndColors(String filename) {
+	    	try (Scanner file = new Scanner(new File("src/" + filename))) {
+	    		int numVert = file.nextInt();
+
+	    		vertices = new float[numVert * 4];
+	    		colors = new float[numVert * 4];
+
+	    		for (int i = 0; i < numVert; i++) {
+	    			vertices[4 * i] = file.nextFloat();
+	    			vertices[(4 * i) + 1] = file.nextFloat();
+					vertices[(4 * i) + 2] = file.nextFloat();
+					vertices[(4 * i) + 3] = file.nextFloat();
+				}
+
+	    		for (int i = 0; i < numVert; i++) {
+					colors[4 * i] = file.nextFloat();
+					colors[(4 * i) + 1] = file.nextFloat();
+					colors[(4 * i) + 2] = file.nextFloat();
+					colors[(4 * i) + 3] = file.nextFloat();
+				}
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 
 	    @Override
 	    public void init(GLAutoDrawable drawable) {
