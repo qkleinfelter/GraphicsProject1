@@ -289,8 +289,8 @@ public class RotationDemo {
 	        } else if (e.getKeyCode() == KeyEvent.VK_Y) {
 	        	// look down y-axis towards origin
 	        	viewMatrix.glLoadIdentity();
-	        	// eye position (0, 3, 0), look at (0, 0, 0`), up direction (0, 1, 0)
-	        	viewMatrix.gluLookAt(0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.01f, 0.0f, 1.0f, 0.0f);
+	        	// eye position (0, 3, 0), look at (0, 0, 0), up direction (1, 0, 0)
+	        	viewMatrix.gluLookAt(0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
 			} else if (e.getKeyCode() == KeyEvent.VK_Z) {
 	        	// look down z-axis towards origin
 				viewMatrix.glLoadIdentity();
