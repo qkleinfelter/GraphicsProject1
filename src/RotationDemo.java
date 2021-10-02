@@ -69,7 +69,6 @@ public class RotationDemo {
 		private float[] vertices = null;
 		private float[] colors = null;
 
-
 	    private final IntBuffer bufferName = GLBuffers.newDirectIntBuffer(Buffer.MAX);
 	    private final IntBuffer vertexArrayName = GLBuffers.newDirectIntBuffer(1);
         private Program program;
