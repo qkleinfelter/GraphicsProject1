@@ -29,7 +29,13 @@ import com.jogamp.opengl.util.glsl.ShaderCode;
 	import static com.jogamp.opengl.GL4.GL_MAP_PERSISTENT_BIT;
 
 /**
- * 
+ * @author Quinn Kleinfelter
+ *
+ * Modified the code to read in the vertices & colors from a specified format file found in the src directory.
+ * For example, to read diamond.dat, you would place it at the location "src/diamond.dat". If the file is by any other
+ * name it will need to be changed in the setup method. Also allowed the user to change the view matrix to look down
+ * the x, y, or z axes towards the origin, by pressing x, y, or z respectively. Finally, made the object rotate
+ * continuously, unless paused by pressing P, which can then be resumed by pressing R.
  */
 
 /**
